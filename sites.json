@@ -3,9 +3,9 @@
     "domain": "https://bifu.co/zh-MY",
     "path": [
       "/",
-      "/market",
-      "/trade",
-      "/copy-trading"
+      "/market/",
+      "/trade/",
+      "/copy-trading/"
     ]
   }
 }
