@@ -1,0 +1,11 @@
+{
+  "bifu": {
+    "domain": "https://bifu.co/zh-MY",
+    "path": [
+      "/",
+      "/market",
+      "/trade",
+      "/copy-trading"
+    ]
+  }
+}

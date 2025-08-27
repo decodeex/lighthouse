@@ -1,0 +1,38 @@
+name: Lighthouse CI
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # 每天 0 点执行
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Lighthouse audits
+        run: pnpm tsx scripts/run-lighthouse.ts
+
+      - name: Upload results to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./results
+          publish_branch: gh-pages
