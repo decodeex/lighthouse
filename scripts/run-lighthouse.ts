@@ -10,7 +10,11 @@ await fs.ensureDir(resultsDir);
 
 // Puppeteer 启动
 const browser = await puppeteer.launch({ 
-  headless: true // 默认 headless
+  headless: true, // 默认 headless
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox'
+  ]
 });
 
 const context = await browser.createBrowserContext();

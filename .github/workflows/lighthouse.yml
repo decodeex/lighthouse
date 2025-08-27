@@ -1,20 +1,29 @@
-name: Lighthouse CI
+name: github pages
 
 on:
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
   push:
-    branches:
-      - develop
+    branches: ["develop"]
   schedule:
-    - cron: "0 0 * * *" # 每天 0 点执行
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  lighthouse:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -32,10 +41,11 @@ jobs:
 
       - name: Run Lighthouse audits
         run: pnpm tsx scripts/run-lighthouse.ts
-
-      - name: Upload results to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./results
-          publish_branch: gh-pages
+          path: './results'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
