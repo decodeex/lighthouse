@@ -46,6 +46,6 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           add: 'docs'
-          commit_message: 'Update docs [skip ci]'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           author_name: 'github-actions[bot]'
           author_email: 'github-actions[bot]@users.noreply.github.com'
