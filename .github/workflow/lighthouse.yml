@@ -1,11 +1,12 @@
 name: Lighthouse CI
 
 on:
-  branch:
-    - develop
+  workflow_dispatch: # 允许手动触发
+  push:
+    branches:
+      - develop
   schedule:
     - cron: "0 0 * * *" # 每天 0 点执行
-  workflow_dispatch: # 允许手动触发
 
 jobs:
   lighthouse:
