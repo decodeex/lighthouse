@@ -14,16 +14,10 @@ permissions:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -41,11 +35,11 @@ jobs:
 
       - name: Run Lighthouse audits
         run: pnpm tsx scripts/run-lighthouse.ts
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        
+      - name: Commit docs to Git
+        uses: EndBug/add-and-commit@v9
         with:
-          path: './results'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          add: 'docs'
+          commit_message: 'Update docs [skip ci]'
+          author_name: 'github-actions[bot]'
+          author_email: 'github-actions[bot]@users.noreply.github.com'
